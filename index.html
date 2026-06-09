@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Name Jap Counter </title>
+    <meta name="theme-color" content="#FFD700">
+    <link rel="stylesheet" href="./style/style.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Chart JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- PDF Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Hindi Floating Animation -->
+
+    <div id="floating-bg"></div>
+    <!-- Overlay -->
+    <div class="hero-overlay"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <div class="logo">
+                🌸 राधे राधे 🌸
+            </div>
+            <div class="date-time" id="dateTime">
+                Loading...
+            </div>
+        </header>
+
+        <!-- HERO SECTION -->
+        <section class="hero-card">
+            <h1> 🙏 Name Jap Counter </h1>
+
+            <p>
+                राधा वल्लभ श्री हरिवंश ❤️
+            </p>
+
+            <div class="quote">
+                "राधे राधे जपने से मन शांत होता है"
+            </div>
+        </section>
+
+        <!-- DASHBOARD -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">
+                    Current Counter
+                </div>
+                <div class="stat-value" id="currentCount">
+                    0
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">
+                    Today's Jap
+                </div>
+
+                <div class="stat-value" id="todayCount">
+                    0
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">
+                    Monthly Jap
+                </div>
+
+                <div class="stat-value" id="monthlyCount">
+                    0
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">
+                    Lifetime Jap
+                </div>
+
+                <div class="stat-value" id="lifetimeCount">
+                    0
+                </div>
+            </div>
+        </section>
+
+        <!-- GOAL SECTION -->
+        <section class="progress-section">
+            <h2>
+                🎯 Daily Goal
+            </h2>
+
+            <div class="goal-text">
+                Target : 10,000 Jap
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill">
+                </div>
+
+            </div>
+            <div class="progress-percent" id="progressPercent">
+                0%
+            </div>
+        </section>
+
+        <!-- COUNTER CARD -->
+        <section class="counter-card">
+            <div class="counter-number" id="counterDisplay">
+                0
+            </div>
+
+            <div class="button-grid">
+                <button class="btn btn-jap" onclick="addJap()">
+                    <i class="fa-solid fa-hands-praying"></i>
+                    +1 Jap
+                </button>
+
+                <button class="btn btn-reset" onclick="resetCounter()">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    Reset
+                </button>
+
+                <button class="btn btn-share" onclick="shareWhatsApp()">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    Share
+                </button>
+                <button class="btn btn-pdf" onclick="exportPDF()">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    Export PDF
+                </button>
+            </div>
+        </section>
+
+        <!-- ACHIEVEMENTS -->
+        <section class="achievement-card">
+            <h2>
+                🏆 Achievement Badges
+            </h2>
+
+            <div class="badge-grid">
+                <div id="badge108" class="badge locked">
+                    🌸
+                    <br>
+                    108
+                </div>
+
+                <div id="badge1008" class="badge locked">
+                    🙏
+                    <br>
+                    1008
+                </div>
+
+                <div id="badge5000" class="badge locked">
+                    🕉️
+                    <br>
+                    5000
+                </div>
+
+                <div id="badge10000" class="badge locked">
+                    👑
+                    <br>
+                    10000
+                </div>
+            </div>
+        </section>
+
+        <!-- RECORDS -->
+        <section class="records-card">
+            <div class="record-header">
+                <h2>
+                    📖 Jap Records
+                </h2>
+                <input type="text" id="searchInput" placeholder="Search Date..." onkeyup="filterRecords()">
+            </div>
+            <div class="record-list" id="recordList">
+            </div>
+        </section>
+
+        <!-- CHART -->
+        <section class="chart-card">
+            <h2>
+                📈 Monthly Statistics
+            </h2>
+            <canvas id="monthlyChart">
+            </canvas>
+        </section>
+    </div>
+
+    
+    <!-- POPUP -->
+    <div id="achievementPopup" class="achievement-popup">
+        <div id="achievementText">
+            Achievement Unlocked
+        </div>
+    </div>
+
+ <audio id="clickSound" preload="auto">
+    <source src="./assets/radha name jap.mp4" type="audio/mp4">
+</audio>
+
+    <!-- FOOTER -->
+    <footer id="footerYear">
+        Loading...
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
