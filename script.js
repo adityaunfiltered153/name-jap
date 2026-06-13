@@ -344,6 +344,12 @@ ${data.lifetimeCount >= 5000 ? "✅ 5000 Badge" : "❌ 5000 Badge"}
 
 ${data.lifetimeCount >= 10000 ? "✅ 10000 Badge" : "❌ 10000 Badge"}
 
+${data.lifetimeCount >= 50000 ? "✅ 50000 Badge" : "❌ 50000 Badge"}
+
+${data.lifetimeCount >= 100000 ? "✅ 100000 Badge" : "❌ 100000 Badge"}
+
+${data.lifetimeCount >= 10000000 ? "✅ 10000000 Badge" : "❌ 10000000 Badge"}
+
 🕉️ Jai Shri Radhe ❤️
 
 📅 ${new Date().toLocaleDateString("en-IN")}
@@ -395,178 +401,303 @@ function exportPDF() {
   const bestStreak = data.bestStreak || 0;
 
   // ==========================
-  // HEADER
-  // ==========================
+// HEADER
+// ==========================
 
-  pdf.setFillColor(255, 153, 51);
+pdf.setFillColor(255, 153, 51);
+pdf.rect(0, 0, pageWidth, 30, "F");
 
-  pdf.rect(0, 0, pageWidth, 30, "F");
+pdf.setTextColor(255, 255, 255);
+pdf.setFont("helvetica", "bold");
+pdf.setFontSize(20);
 
-  pdf.setTextColor(255, 255, 255);
+pdf.text(
+  "NAME JAP PREMIUM REPORT",
+  pageWidth / 2,
+  18,
+  { align: "center" }
+);
 
-  pdf.setFont("helvetica", "bold");
+// Subtitle
+pdf.setFontSize(9);
+pdf.setFont("helvetica", "normal");
 
-  pdf.setFontSize(20);
+pdf.text(
+  "Spiritual Progress & Achievement Report",
+  pageWidth / 2,
+  25,
+  { align: "center" }
+);
 
-  pdf.text("NAME JAP PREMIUM REPORT", pageWidth / 2, 18, { align: "center" });
+// Reset text color
+pdf.setTextColor(0, 0, 0);
 
-  // ==========================
-  // DATE
-  // ==========================
 
-  pdf.setTextColor(0, 0, 0);
 
-  pdf.setFontSize(11);
+ // ==========================
+// DATE
+// ==========================
 
-  pdf.text(`Generated On : ${new Date().toLocaleString()}`, 15, 40);
+pdf.setTextColor(0, 0, 0);
+pdf.setFontSize(11);
 
-  // ==========================
-  // SUMMARY
-  // ==========================
+pdf.text(
+  `Generated On : ${new Date().toLocaleString()}`,
+  15,
+  40
+);
 
-  pdf.setDrawColor(255, 153, 51);
+// ==========================
+// SUMMARY CARD
+// ==========================
 
-  pdf.roundedRect(15, 50, 180, 90, 3, 3);
+pdf.setDrawColor(255, 153, 51);
+pdf.setLineWidth(0.5);
 
-  pdf.setFont("helvetica", "bold");
+pdf.roundedRect(15, 50, 180, 95, 4, 4);
 
-  pdf.setFontSize(14);
+pdf.setFont("helvetica", "bold");
+pdf.setFontSize(14);
 
-  pdf.text("Premium Summary", 20, 60);
+pdf.text("Premium Summary:", 20, 60);
 
-  pdf.setFont("helvetica", "normal");
+// Divider Line
+pdf.line(20, 64, 190, 64);
 
-  pdf.setFontSize(11);
+pdf.setFont("helvetica", "normal");
+pdf.setFontSize(11);
 
-  pdf.text(`Current Counter : ${data.currentCount}`, 20, 72);
+// LEFT COLUMN
 
-  pdf.text(`Today's Jap : ${todayCount}`, 20, 82);
+pdf.text(`Current Counter : ${data.currentCount}`, 20, 75);
+pdf.text(`Today's Jap : ${todayCount}`, 20, 85);
+pdf.text(`Monthly Jap : ${monthlyTotal}`, 20, 95);
+pdf.text(`Lifetime Jap : ${data.lifetimeCount}`, 20, 105);
 
-  pdf.text(`Monthly Jap : ${monthlyTotal}`, 20, 92);
+// RIGHT COLUMN
 
-  pdf.text(`Lifetime Jap : ${data.lifetimeCount}`, 20, 102);
+pdf.text(`Daily Goal : ${goal}`, 110, 75);
+pdf.text(`Goal Progress : ${progress}%`, 110, 85);
+pdf.text(`Total Mala : ${totalMala}`, 110, 95);
+pdf.text(`Current Streak : ${streak} Days`, 110, 105);
+pdf.text(`Best Streak : ${bestStreak} Days`, 110, 115);
 
-  pdf.text(`Daily Goal : ${goal}`, 110, 72);
+// ==========================
+// PROGRESS BAR
+// ==========================
 
-  pdf.text(`Goal Progress : ${progress}%`, 110, 82);
+const progressWidth = 150;
+const progressValue = Math.min(
+  (todayCount / goal) * progressWidth,
+  progressWidth
+);
 
-  pdf.text(`Total Mala : ${totalMala}`, 110, 92);
+pdf.setFont("helvetica", "bold");
+pdf.setFontSize(10);
 
-  pdf.text(`Current Streak : ${streak} Days`, 110, 102);
+pdf.text("Daily Goal Progress:", 20, 128);
 
-  pdf.text(`Best Streak : ${bestStreak} Days`, 110, 112);
+// Background
+pdf.setFillColor(230, 230, 230);
+pdf.rect(20, 132, progressWidth, 6, "F");
 
-  // ==========================
-  // ACHIEVEMENTS
-  // ==========================
+// Filled Progress
+pdf.setFillColor(255, 153, 51);
+pdf.rect(20, 132, progressValue, 6, "F");
 
-  pdf.setFont("helvetica", "bold");
+pdf.text(`${progress}%`, 175, 137);
 
-  pdf.setFontSize(13);
 
-  pdf.text("Achievement Status", 15, 155);
+// ==========================
+// ACHIEVEMENTS
+// ==========================
 
-  pdf.setFont("helvetica", "normal");
+pdf.setFont("helvetica", "bold");
+pdf.setFontSize(14);
+pdf.setTextColor(0, 0, 0);
 
-  pdf.text(
-    data.lifetimeCount >= 108 ? "YES - 108 Badge" : "NO - 108 Badge",
-    20,
-    165,
-  );
+pdf.text("Achievement Status:", 15, 160);
 
-  pdf.text(
-    data.lifetimeCount >= 1008 ? "YES - 1008 Badge" : "NO - 1008 Badge",
-    80,
-    165,
-  );
+// Achievement Box
+pdf.setDrawColor(255, 153, 51);
+pdf.roundedRect(15, 165, 180, 50, 3, 3);
 
-  pdf.text(
-    data.lifetimeCount >= 5000 ? "YES - 5000 Badge" : "NO - 5000 Badge",
-    140,
-    165,
-  );
+const badges = [
+  { limit: 108, label: "108 Badge" },
+  { limit: 1008, label: "1008 Badge" },
+  { limit: 5000, label: "5000 Badge" },
+  { limit: 10000, label: "10000 Badge" },
+  { limit: 50000, label: "50000 Badge" },
+  { limit: 100000, label: "100000 Badge" },
+  { limit: 10000000, label: "10000000 Badge" }
+];
 
-  pdf.text(
-    data.lifetimeCount >= 10000 ? "YES - 10000 Badge" : "NO - 10000 Badge",
-    20,
-    175,
-  );
+pdf.setFont("helvetica", "normal");
+pdf.setFontSize(11);
 
-  // ==========================
-  // RECORDS TITLE
-  // ==========================
+let startY = 175;
 
-  pdf.setFont("helvetica", "bold");
+badges.forEach((badge, index) => {
+  const achieved = data.lifetimeCount >= badge.limit;
 
-  pdf.setFontSize(15);
+  const x = index % 2 === 0 ? 20 : 105;
+  const y = startY + Math.floor(index / 2) * 10;
 
-  pdf.text("Daily Jap Records", 15, 190);
+  if (achieved) {
+    pdf.setTextColor(0, 150, 0);
+    pdf.text(`ACHIEVED ${badge.label}`, x, y);
+  } else {
+    pdf.setTextColor(200, 0, 0);
+    pdf.text(`PENDING ${badge.label}`, x, y);
+  }
+});
 
-  // ==========================
-  // TABLE
-  // ==========================
+pdf.setTextColor(0, 0, 0);
 
-  let y = 205;
+// IMPORTANT
+// Daily Jap Records section isi ke baad start karna
+let recordsStartY = 225;
 
-  pdf.setFillColor(240, 240, 240);
 
-  pdf.rect(15, y - 7, 180, 10, "F");
+// ==========================
+// RECORDS TITLE
+// ==========================
 
-  pdf.text("Date", 20, y);
+// ==========================
+// DAILY JAP RECORDS
+// ==========================
 
-  pdf.text("Count", 150, y);
+pdf.setFont("helvetica", "bold");
+pdf.setFontSize(15);
 
-  y += 10;
+pdf.text("Daily Jap Records:", 15, recordsStartY);
 
-  pdf.setFont("helvetica", "normal");
+let y = recordsStartY + 11;
 
-  Object.entries(data.records)
-    .reverse()
-    .forEach(([date, count]) => {
-      if (y > 270) {
-        pdf.addPage();
+// Table Container
+pdf.setDrawColor(220, 220, 220);
 
-        y = 20;
+// Header
+pdf.setFillColor(255, 153, 51);
+pdf.rect(15, y - 7, 180, 10, "F");
 
-        pdf.setFont("helvetica", "bold");
+pdf.setTextColor(255, 255, 255);
+pdf.setFont("helvetica", "bold");
 
-        pdf.text("Daily Jap Records (Continued)", 15, y);
+pdf.text("Day", 20, y);
+pdf.text("Date", 75, y);
+pdf.text("Count", 165, y);
 
-        y += 15;
+y += 10;
 
-        pdf.setFont("helvetica", "normal");
-      }
+pdf.setTextColor(0, 0, 0);
+pdf.setFont("helvetica", "normal");
 
-      pdf.line(15, y - 5, 195, y - 5);
+Object.entries(data.records)
+  .reverse()
+  .forEach(([date, count], index) => {
 
-      pdf.text(date, 20, y);
+    // Auto New Page
+    if (y > 270) {
 
-      pdf.text(String(count), 150, y);
+      pdf.addPage();
+
+      y = 20;
+
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(15);
+
+      pdf.text("Daily Jap Records (Continued)", 15, y);
+
+      y += 15;
+
+      // Header Again
+      pdf.setFillColor(255, 153, 51);
+      pdf.rect(15, y - 7, 180, 10, "F");
+
+      pdf.setTextColor(255, 255, 255);
+
+      pdf.text("Day", 20, y);
+      pdf.text("Date", 75, y);
+      pdf.text("Count", 165, y);
 
       y += 10;
+
+      pdf.setTextColor(0, 0, 0);
+      pdf.setFont("helvetica", "normal");
+    }
+
+    const recordDate = new Date(date);
+
+    const dayName = recordDate.toLocaleDateString("en-US", {
+      weekday: "long",
     });
 
-  // ==========================
-  // FOOTER
-  // ==========================
-
-  const totalPages = pdf.internal.getNumberOfPages();
-
-  for (let i = 1; i <= totalPages; i++) {
-    pdf.setPage(i);
-
-    pdf.setFontSize(10);
-
-    pdf.text("Radhe Radhe Name Jap Counter", pageWidth / 2, 285, {
-      align: "center",
+    const dateOnly = recordDate.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
     });
 
-    pdf.text("Created By AdityaUnfiltered153", pageWidth / 2, 290, {
-      align: "center",
-    });
+    // Alternate Row Color
+    if (index % 2 === 0) {
+      pdf.setFillColor(248, 248, 248);
+    } else {
+      pdf.setFillColor(255, 255, 255);
+    }
 
-    pdf.text(`Page ${i} of ${totalPages}`, 195, 290, { align: "right" });
-  }
+    pdf.rect(15, y - 6, 180, 8, "F");
+
+    // Row Border
+    pdf.setDrawColor(230, 230, 230);
+    pdf.rect(15, y - 6, 180, 8);
+
+    pdf.text(dayName, 20, y);
+    pdf.text(dateOnly, 75, y);
+    pdf.text(String(count), 165, y);
+
+    y += 8;
+  });
+
+// ==========================
+// FOOTER
+// ==========================
+
+const totalPages = pdf.internal.getNumberOfPages();
+
+for (let i = 1; i <= totalPages; i++) {
+  pdf.setPage(i);
+
+  pdf.setDrawColor(220, 220, 220);
+  pdf.line(15, 280, 195, 280);
+
+  pdf.setFontSize(9);
+  pdf.setTextColor(100, 100, 100);
+
+  pdf.text(
+    "Radhe Radhe Name Jap Counter",
+    pageWidth / 2,
+    286,
+    { align: "center" }
+  );
+
+  pdf.text(
+    "Created By AdityaUnfiltered153",
+    pageWidth / 2,
+    291,
+    { align: "center" }
+  );
+
+  pdf.text(
+    `Page ${i} of ${totalPages}`,
+    195,
+    291,
+    { align: "right" }
+  );
+}
+
+pdf.setTextColor(0, 0, 0);
+
 
   // ==========================
   // SAVE
