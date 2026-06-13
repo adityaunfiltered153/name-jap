@@ -742,17 +742,17 @@ function checkAchievements() {
   if (total >= 10000) {
     unlockBadge("badge10000", "👑 10000 Jap Complete");
   }
-  if (total >= 50000) {
-    unlockBadge("badge25000", "🏅 50000 Jap Complete");
-  }
+ if (total >= 50000) {
+  unlockBadge("badge50000", "🏅 50000 Jap Complete");
+}
 
-  if (total >= 100000) {
-    unlockBadge("badge50000", "💎 100000 Jap Complete");
-  }
+if (total >= 100000) {
+  unlockBadge("badge100000", "💎 100000 Jap Complete");
+}
 
-  if (total >= 10000000) {
-    unlockBadge("badge100000", "👑 10000000 Jap Complete");
-  }
+if (total >= 10000000) {
+  unlockBadge("badge10000000", "👑 10000000 Jap Complete");
+}
 }
 
 function showAchievement(text) {
