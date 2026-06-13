@@ -87,7 +87,7 @@
       <section class="progress-section">
         <h2>🎯 Daily Goal</h2>
 
-        <div class="goal-text">Target : 10,000 Jap</div>
+        <div class="goal-text">Target : 10,000,000 Jap</div>
 
         <div class="goal-settings">
           <input type="number" id="goalInput" placeholder="Enter Daily Goal" />
@@ -177,22 +177,22 @@
             10000
           </div>
 
-          <div id="badge25000" class="badge locked">
-            🏅
-            <br />
-            25000
-          </div>
-
           <div id="badge50000" class="badge locked">
-            💎
+            🏅
             <br />
             50000
           </div>
 
           <div id="badge100000" class="badge locked">
-            👑
+            💎
             <br />
             100000
+          </div>
+
+          <div id="badge10000000" class="badge locked">
+            👑
+            <br />
+            10000000
           </div>
         </div>
       </section>
@@ -221,105 +221,63 @@
       </section>
 
       <!-- CHART -->
-      <!-- =========================
-     PREMIUM STATISTICS
-========================= -->
-<section class="chart-card">
+      <!-- ========================= PREMIUM STATISTICS========================= -->
+      <section class="chart-card">
+        <div class="chart-top">
+          <div>
+            <h2>📈 Monthly Statistics</h2>
+            <p class="chart-subtitle">Jap Progress Analytics</p>
+          </div>
 
-  <div class="chart-top">
+          <div class="chart-actions">
+            <button class="chart-btn active" onclick="changeRange(7)">
+              7D
+            </button>
 
-    <div>
-      <h2>📈 Monthly Statistics</h2>
-      <p class="chart-subtitle">
-        Jap Progress Analytics
-      </p>
-    </div>
+            <button class="chart-btn" onclick="changeRange(30)">30D</button>
 
-    <div class="chart-actions">
+            <button class="chart-btn" onclick="changeRange(90)">90D</button>
 
-      <button
-        class="chart-btn active"
-        onclick="changeRange(7)">
-        7D
-      </button>
+            <button class="chart-btn" onclick="toggleChartType()">
+              📊 Switch
+            </button>
+          </div>
+        </div>
 
-      <button
-        class="chart-btn"
-        onclick="changeRange(30)">
-        30D
-      </button>
+        <!-- Analytics Cards -->
 
-      <button
-        class="chart-btn"
-        onclick="changeRange(90)">
-        90D
-      </button>
+        <div class="stats-mini-grid">
+          <div class="mini-stat">
+            <span>🔥 Best Day</span>
 
-      <button
-        class="chart-btn"
-        onclick="toggleChartType()">
-        📊 Switch
-      </button>
+            <strong id="bestDayCount"> 0 </strong>
+          </div>
 
-    </div>
+          <div class="mini-stat">
+            <span>📈 Growth</span>
 
-  </div>
+            <strong id="growthRate"> 0% </strong>
+          </div>
 
-  <!-- Analytics Cards -->
+          <div class="mini-stat">
+            <span>🙏 Total Jap</span>
 
-  <div class="stats-mini-grid">
+            <strong id="chartTotal"> 0 </strong>
+          </div>
 
-    <div class="mini-stat">
+          <div class="mini-stat">
+            <span>📅 Records</span>
 
-      <span>🔥 Best Day</span>
+            <strong id="totalDays"> 0 </strong>
+          </div>
+        </div>
 
-      <strong id="bestDayCount">
-        0
-      </strong>
+        <!-- Chart -->
 
-    </div>
-
-    <div class="mini-stat">
-
-      <span>📈 Growth</span>
-
-      <strong id="growthRate">
-        0%
-      </strong>
-
-    </div>
-
-    <div class="mini-stat">
-
-      <span>🙏 Total Jap</span>
-
-      <strong id="chartTotal">
-        0
-      </strong>
-
-    </div>
-
-    <div class="mini-stat">
-
-      <span>📅 Records</span>
-
-      <strong id="totalDays">
-        0
-      </strong>
-
-    </div>
-
-  </div>
-
-  <!-- Chart -->
-
-  <div class="chart-wrapper">
-
-    <canvas id="monthlyChart"></canvas>
-
-  </div>
-
-</section>
+        <div class="chart-wrapper">
+          <canvas id="monthlyChart"></canvas>
+        </div>
+      </section>
 
       <!-- STREAK SECTION -->
       <section class="streak-card">
