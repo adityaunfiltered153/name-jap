@@ -537,19 +537,61 @@ header {
 }
 
 .record {
-  padding: 15px;
+  padding: 18px;
+  margin-bottom: 12px;
 
-  margin-bottom: 10px;
+  background: rgba(255,255,255,0.08);
 
-  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255,255,255,0.15);
 
-  border-radius: 12px;
+  border-radius: 15px;
+
+  transition: all .3s ease;
+
+  backdrop-filter: blur(10px);
+}
+
+.record:hover {
+  transform: translateY(-3px);
+
+  background: rgba(255,215,0,.15);
+
+  box-shadow: 0 0 15px rgba(255,215,0,.3);
 }
 
 .record-list {
-  max-height: 350px;
-
+  max-height: 320px; /* 4 records */
   overflow-y: auto;
+  scroll-behavior: smooth;
+  padding-right: 5px;
+}
+
+/* Premium Scrollbar */
+
+.record-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.record-list::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.08);
+  border-radius: 20px;
+}
+
+.record-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    135deg,
+    #ffd700,
+    #ff9933
+  );
+  border-radius: 20px;
+}
+
+.record-list::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    135deg,
+    #ff9933,
+    #ffd700
+  );
 }
 
 /* =========================

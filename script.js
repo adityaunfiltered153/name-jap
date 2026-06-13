@@ -987,29 +987,123 @@ function renderCalendar() {
 // VOICE JAP
 // ============================
 
+// ============================
+// CONTINUOUS VOICE JAP
+// ============================
+
+
+// ============================
+// CONTINUOUS VOICE JAP
+// ============================
+
+let voiceRecognition;
+let voiceRunning = false;
+
 function startVoiceCounter() {
   const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
 
   if (!SpeechRecognition) {
-    alert("Voice Recognition Supported Nahi Hai");
+    alert("❌ Voice Recognition Supported Nahi Hai");
+    return;
+  }
+
+  const btn = document.querySelector(
+    'button[onclick="startVoiceCounter()"]'
+  );
+
+  // STOP VOICE
+  if (voiceRunning) {
+    voiceRunning = false;
+
+    if (voiceRecognition) {
+      voiceRecognition.stop();
+    }
+
+    if (btn) {
+      btn.innerHTML = "🎤 Voice Jap";
+    }
+
+    alert("🛑 Voice Jap Stopped");
 
     return;
   }
 
-  const recognition = new SpeechRecognition();
+  // START VOICE
+  voiceRecognition = new SpeechRecognition();
 
-  recognition.lang = "hi-IN";
+  voiceRecognition.lang = "hi-IN";
 
-  recognition.start();
+  voiceRecognition.continuous = true;
 
-  recognition.onresult = (event) => {
-    const text = event.results[0][0].transcript.toLowerCase();
+  voiceRecognition.interimResults = false;
 
-    if (text.includes("radhe")) {
-      addJap();
+  voiceRunning = true;
 
-      alert("🙏 Jap Added");
+  if (btn) {
+    btn.innerHTML = "🛑 Stop Voice";
+  }
+
+  alert("🎤 Voice Jap Started\n\n'राधे' bolte rahiye");
+
+  voiceRecognition.start();
+
+  voiceRecognition.onresult = (event) => {
+    for (
+      let i = event.resultIndex;
+      i < event.results.length;
+      i++
+    ) {
+      const text = event.results[i][0].transcript
+        .toLowerCase()
+        .trim();
+
+      console.log("Detected:", text);
+
+      // Radhe Detection
+      if (
+        text.includes("राधे") ||
+        text.includes("राधे राधे") ||
+        text.includes("radhe") ||
+        text.includes("radhey") ||
+        text.includes("radha") ||
+        text.includes("राधा")
+      ) {
+        addJap();
+
+        console.log("🙏 Jap Added");
+      }
+    }
+  };
+
+  // Auto Restart
+  voiceRecognition.onend = () => {
+    if (voiceRunning) {
+      try {
+        voiceRecognition.start();
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
+
+  voiceRecognition.onerror = (event) => {
+    console.log("Voice Error:", event.error);
+
+    if (
+      event.error === "not-allowed" ||
+      event.error === "service-not-allowed"
+    ) {
+      alert(
+        "🎤 Microphone Permission Allow Karo"
+      );
+
+      voiceRunning = false;
+
+      if (btn) {
+        btn.innerHTML = "🎤 Voice Jap";
+      }
     }
   };
 }
