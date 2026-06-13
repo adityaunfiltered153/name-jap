@@ -656,26 +656,183 @@ function celebrate() {
 // CHART JS
 // ============================
 
+// ============================
+// PREMIUM ANALYTICS CHART 2026
+// ============================
+
 let chart;
+let currentRange = 30;
+let currentChartType = "bar";
+
+function changeRange(days) {
+  currentRange = days;
+
+  document.querySelectorAll(".chart-btn").forEach((btn) => {
+    btn.classList.remove("active");
+  });
+
+  const buttons = document.querySelectorAll(".chart-btn");
+
+  if (days === 7 && buttons[0]) buttons[0].classList.add("active");
+  if (days === 30 && buttons[1]) buttons[1].classList.add("active");
+  if (days === 90 && buttons[2]) buttons[2].classList.add("active");
+
+  updateChart();
+}
+
+function toggleChartType() {
+  currentChartType =
+    currentChartType === "bar"
+      ? "line"
+      : "bar";
+
+  updateChart();
+}
 
 function updateChart() {
-  const canvas = document.getElementById("monthlyChart");
+
+  const canvas =
+    document.getElementById("monthlyChart");
 
   if (!canvas) return;
 
-  const labels = Object.keys(data.records);
+  // Records Data
 
-  const values = Object.values(data.records);
+  const entries =
+    Object.entries(data.records || {});
+
+  if (entries.length === 0) {
+
+    if (chart) {
+      chart.destroy();
+    }
+
+    return;
+  }
+
+  // Last N Days
+
+  const recent =
+    entries.slice(-currentRange);
+
+  const labels =
+    recent.map(([date]) => {
+
+      const parts = date.split(" ");
+
+      return parts[1] || date;
+    });
+
+  const values =
+    recent.map(([_, count]) => count);
+
+  // Analytics
+
+  const total =
+    values.reduce(
+      (a, b) => a + b,
+      0
+    );
+
+  const bestDay =
+    values.length
+      ? Math.max(...values)
+      : 0;
+
+  const first =
+    values[0] || 0;
+
+  const last =
+    values[values.length - 1] || 0;
+
+  let growth = 0;
+
+  if (first > 0) {
+    growth =
+      (
+        ((last - first) / first) *
+        100
+      ).toFixed(1);
+  }
+
+  // Mini Cards
+
+  const bestDayEl =
+    document.getElementById(
+      "bestDayCount"
+    );
+
+  const growthEl =
+    document.getElementById(
+      "growthRate"
+    );
+
+  const totalEl =
+    document.getElementById(
+      "chartTotal"
+    );
+
+  const totalDaysEl =
+    document.getElementById(
+      "totalDays"
+    );
+
+  if (bestDayEl)
+    bestDayEl.innerText = bestDay;
+
+  if (growthEl)
+    growthEl.innerText =
+      growth + "%";
+
+  if (totalEl)
+    totalEl.innerText =
+      total.toLocaleString();
+
+  if (totalDaysEl)
+    totalDaysEl.innerText =
+      values.length;
+
+  // Destroy old chart
 
   if (chart) {
     chart.destroy();
   }
 
-  chart = new Chart(canvas, {
-    type: "bar",
+  const ctx =
+    canvas.getContext("2d");
+
+  // Premium Gradient
+
+  const gradient =
+    ctx.createLinearGradient(
+      0,
+      0,
+      0,
+      400
+    );
+
+  gradient.addColorStop(
+    0,
+    "rgba(255,215,0,.95)"
+  );
+
+  gradient.addColorStop(
+    0.5,
+    "rgba(255,153,51,.85)"
+  );
+
+  gradient.addColorStop(
+    1,
+    "rgba(255,105,180,.25)"
+  );
+
+  chart = new Chart(ctx, {
+
+    type: currentChartType,
 
     data: {
-      labels: labels,
+
+      labels,
 
       datasets: [
         {
@@ -683,22 +840,128 @@ function updateChart() {
 
           data: values,
 
-          borderWidth: 1,
+          backgroundColor:
+            gradient,
+
+          borderColor:
+            "#FFD700",
+
+          borderWidth: 3,
+
+          borderRadius: 12,
+
+          fill: true,
+
+          tension: 0.45,
+
+          pointRadius: 5,
+
+          pointHoverRadius: 8,
+
+          pointBackgroundColor:
+            "#FFD700",
+
+          pointBorderColor:
+            "#fff",
         },
       ],
     },
 
     options: {
+
       responsive: true,
 
+      maintainAspectRatio: false,
+
+      animation: {
+        duration: 1200,
+      },
+
+      interaction: {
+        intersect: false,
+        mode: "index",
+      },
+
       plugins: {
+
         legend: {
-          display: true,
+          display: false,
+        },
+
+        tooltip: {
+
+          backgroundColor:
+            "rgba(0,0,0,.85)",
+
+          titleColor:
+            "#FFD700",
+
+          bodyColor:
+            "#fff",
+
+          padding: 12,
+
+          cornerRadius: 12,
+
+          displayColors: false,
+
+          callbacks: {
+            label: function (
+              context
+            ) {
+              return (
+                "🙏 Jap : " +
+                context.raw
+              );
+            },
+          },
+        },
+      },
+
+      scales: {
+
+        x: {
+
+          grid: {
+            display: false,
+          },
+
+          ticks: {
+            color:
+              "#ffffff",
+            maxRotation: 0,
+          },
+        },
+
+        y: {
+
+          beginAtZero: true,
+
+          grid: {
+            color:
+              "rgba(255,255,255,.08)",
+          },
+
+          ticks: {
+            color:
+              "#ffffff",
+          },
         },
       },
     },
   });
 }
+
+// ============================
+// AUTO LOAD CHART
+// ============================
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+    updateChart();
+  }
+);
 
 // ============================
 // FLOATING HINDI TEXT

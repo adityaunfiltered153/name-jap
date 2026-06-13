@@ -25,7 +25,6 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    
   </head>
 
   <body>
@@ -222,10 +221,105 @@
       </section>
 
       <!-- CHART -->
-      <section class="chart-card">
-        <h2>📈 Monthly Statistics</h2>
-        <canvas id="monthlyChart"> </canvas>
-      </section>
+      <!-- =========================
+     PREMIUM STATISTICS
+========================= -->
+<section class="chart-card">
+
+  <div class="chart-top">
+
+    <div>
+      <h2>📈 Monthly Statistics</h2>
+      <p class="chart-subtitle">
+        Jap Progress Analytics
+      </p>
+    </div>
+
+    <div class="chart-actions">
+
+      <button
+        class="chart-btn active"
+        onclick="changeRange(7)">
+        7D
+      </button>
+
+      <button
+        class="chart-btn"
+        onclick="changeRange(30)">
+        30D
+      </button>
+
+      <button
+        class="chart-btn"
+        onclick="changeRange(90)">
+        90D
+      </button>
+
+      <button
+        class="chart-btn"
+        onclick="toggleChartType()">
+        📊 Switch
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- Analytics Cards -->
+
+  <div class="stats-mini-grid">
+
+    <div class="mini-stat">
+
+      <span>🔥 Best Day</span>
+
+      <strong id="bestDayCount">
+        0
+      </strong>
+
+    </div>
+
+    <div class="mini-stat">
+
+      <span>📈 Growth</span>
+
+      <strong id="growthRate">
+        0%
+      </strong>
+
+    </div>
+
+    <div class="mini-stat">
+
+      <span>🙏 Total Jap</span>
+
+      <strong id="chartTotal">
+        0
+      </strong>
+
+    </div>
+
+    <div class="mini-stat">
+
+      <span>📅 Records</span>
+
+      <strong id="totalDays">
+        0
+      </strong>
+
+    </div>
+
+  </div>
+
+  <!-- Chart -->
+
+  <div class="chart-wrapper">
+
+    <canvas id="monthlyChart"></canvas>
+
+  </div>
+
+</section>
 
       <!-- STREAK SECTION -->
       <section class="streak-card">
